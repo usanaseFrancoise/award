@@ -10,9 +10,20 @@ from django.db.models.signals import post_save
 class Profile(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE,null=True,blank=True)
     profile_photo = models.ImageField(default='default.png',upload_to='profiles/')
-    bio = HTMLField(max_length=500,default="Rate")
+    bio = HTMLField(max_length=500,default='say Something')
     website = URLOrRelativeURLField() 
-    phone_number = models.CharField(max_length=10,default= 788494207)
+    phone_number = models.CharField(max_length=10,default=0)
+    
+    
+    @receiver(post_save, sender=User)
+    def create_profile(sender, instance, created, **kwargs):
+        if created:
+            Profile.objects.create(user=instance)
+     
+    @receiver(post_save, sender=User) 
+    def save_profile(sender,instance,**kwargs):
+        instance.profile.save()  
+        
     
     @classmethod
     def get_by_id(cls,id):
@@ -23,16 +34,37 @@ class Profile(models.Model):
     def filter_by_id(cls,id): 
         profile = Profile.objects.filter(user = id).first()
         return profile
-
-    @receiver(post_save, sender=User)
-    def create_profile(sender, instance, created, **kwargs):
-        if created:
-            Profile.objects.create(user=instance)
-     
-    @receiver(post_save, sender=User) 
-    def save_profile(sender,instance,**kwargs):
-        instance.profile.save()  
-        
+    
+   
+    
     def __str__(self):
         return self.bio
     
+class Project(models.Model):
+    profile=models.ForeignKey(User,null=True,on_delete=models.CASCADE)
+    title=models.CharField(max_length=20,blank=True)
+    usability=models.IntegerField(default=0)
+    content=models.IntegerField(default=0)
+    design=models.IntegerField(default=0)
+    link=URLOrRelativeURLField(max_length=400)
+    pub_date=models.DateTimeField(auto_now_add=True)
+    image_landing=models.ImageField(upload_to='landing/')
+
+
+    @classmethod
+    def search_by_projects(cls,search_term):
+        projects=cls.objects,filter(title_icontains=search_term)
+        print(projects)
+        return projects
+
+    @classmethod
+    def get_profile_projects(cls,profile):
+        projects=Projects.objects.filter(profile__pk=profile)
+        print(projects)
+        return projects
+
+    def __str__(self):
+        return self.title
+
+
+cls
