@@ -74,9 +74,7 @@ def projects(request,project_id):
         average_usability=0.0
         average_rating = 0.0
         
-    '''
-    To make sure that a user only votes once
-    '''
+  
     
     arr1 = []
     for use in votes:
@@ -113,7 +111,7 @@ def projects(request,project_id):
         
     }
     
-    return render(request,'single_post.html',context) 
+    return render(request,'post.html',context) 
 
 
 
