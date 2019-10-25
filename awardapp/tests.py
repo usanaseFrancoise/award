@@ -1,5 +1,5 @@
 from django.test import TestCase
-from .models import Profile,Project
+from .models import Profile,Project,Rate
 
 
 class ProfileTestClass(TestCase):
