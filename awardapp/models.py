@@ -49,7 +49,7 @@ class Rate(models.Model):
     content=models.PositiveIntegerField(default=0,validators=[MaxValueValidator(10)])
     project=models.IntegerField(default=0)
 
-    
+
 class Project(models.Model):
     profile=models.ForeignKey(User,null=True,on_delete=models.CASCADE)
     title=models.CharField(max_length=20,blank=True)
@@ -77,4 +77,7 @@ class Project(models.Model):
         return self.title
 
 
-
+class Comments(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    comments = models.TextField(max_length=400)
+    pro_id = models.IntegerField(default=0) 
