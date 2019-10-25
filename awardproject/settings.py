@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'awardapp',
     'tinymce',
     'url_or_relative_url_field',
+    'bootstrap4',
 
 ]
 
