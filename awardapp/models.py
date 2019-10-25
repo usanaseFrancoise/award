@@ -4,6 +4,7 @@ from tinymce.models import HTMLField
 from url_or_relative_url_field.fields import URLOrRelativeURLField
 from django.dispatch import receiver
 from django.db.models.signals import post_save
+from django.core.validators import MaxValueValidator
 # Create your models here.
 
 
@@ -67,4 +68,9 @@ class Project(models.Model):
         return self.title
 
 
-cls
+class Rate(models.Model):
+    design=models.PositiveIntegerField(default=0,validators=[MaxValueValidator(10)])
+    usability=models.PositiveIntegerField(default=0,validators=[MaxValueValidator(10)])
+    user=models.ForeignKey(User,on_delete=models.CASCADE)
+    content=models.PositiveIntegerField(default=0,validators=[MaxValueValidator(10)])
+    project=models.IntegerField(default=0)
