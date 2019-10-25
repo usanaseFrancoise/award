@@ -1,0 +1,51 @@
+<nav style="background-color:white;" class="animated slideInDown navbar-collapse navbar-expand-lg sticky-top ">
+    <div class="navbar mx-5">
+      <div id="logo">
+        <a href="{% url 'home' %}" id="brand" style="color: black;font-weight:bold">  Rating AWARDS</a>
+  
+      </div>
+        <div class="dropdown dropleft">
+  
+       
+          <button  style="background-color: rgb(150, 167, 206);color:black;font-weight: bold" type="button" id="dropdownMenu1" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">View APIS</button>
+  
+  
+         
+
+        </div>
+      <div class="nav-search">
+        <form class="form-inline md-form form-md active-pink active-pink-2 mt-2" action="{% url 'search_results' %}">
+          <i class="fas fa-search" aria-hidden="true"></i>
+          <input class="form-control form-control-md ml-3 w-75" type="text" style="color: black;font-weight:bold" placeholder="Search" aria-label="Search"
+            name="titles">
+        </form>
+      </div>
+      <div class="nav-right">
+        {% if user.is_authenticated %}
+  
+        
+            <a href="/logout/" class="accounts" style="color:black;font-weight: bold">Log Out</a>
+      
+          <a href="{% url 'profile' username=user %}" class="avatar">
+              <img class="rounded-circle" alt="" src="{{user.profile.profile_photo.url}}" height="60" width="60" />
+            </a>
+   
+     
+            <a href="{% url 'post_site' %}" id="projects">SUBMIT PROJECT</a>
+      
+     
+        {% else %}
+   
+    <a href="/accounts/login" style="color:black;font-weight: bold"class="accounts">Log In</a>
+        
+  
+        
+        {%  endif %}
+       
+        
+  
+  
+      </div>
+    </div>
+  </nav>
