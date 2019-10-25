@@ -149,6 +149,22 @@ def post_site(request):
 
 
 
+
+def search_results(request):
+    if 'titles' in request.GET and request.GET['titles']:
+        search_term = request.GET.get("titles")
+        searched_projects = Project.search_by_projects(search_term)
+        
+        message = f'{search_term}'
+        
+        return render(request,'search.html',{"message":message,"projects":searched_projects})
+    
+    else:
+        message = "You haven't searched for any term"
+        return render(request,'search.html',{"message":message,"projects":searched_projects})
+
+
+
                  
 
 
