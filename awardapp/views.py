@@ -147,7 +147,7 @@ def post_site(request):
 def search_results(request):
     if 'titles' in request.GET and request.GET['titles']:
         search_term = request.GET.get("titles")
-        searched_projects = Projects.search_by_projects(search_term)
+        searched_projects = Project.search_by_projects(search_term).all()
         
         message = f'{search_term}'
         
