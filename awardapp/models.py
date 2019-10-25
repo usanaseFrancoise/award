@@ -41,6 +41,15 @@ class Profile(models.Model):
     def __str__(self):
         return self.bio
     
+
+class Rate(models.Model):
+    design=models.PositiveIntegerField(default=0,validators=[MaxValueValidator(10)])
+    usability=models.PositiveIntegerField(default=0,validators=[MaxValueValidator(10)])
+    user=models.ForeignKey(User,on_delete=models.CASCADE)
+    content=models.PositiveIntegerField(default=0,validators=[MaxValueValidator(10)])
+    project=models.IntegerField(default=0)
+
+    
 class Project(models.Model):
     profile=models.ForeignKey(User,null=True,on_delete=models.CASCADE)
     title=models.CharField(max_length=20,blank=True)
@@ -68,9 +77,4 @@ class Project(models.Model):
         return self.title
 
 
-class Rate(models.Model):
-    design=models.PositiveIntegerField(default=0,validators=[MaxValueValidator(10)])
-    usability=models.PositiveIntegerField(default=0,validators=[MaxValueValidator(10)])
-    user=models.ForeignKey(User,on_delete=models.CASCADE)
-    content=models.PositiveIntegerField(default=0,validators=[MaxValueValidator(10)])
-    project=models.IntegerField(default=0)
+
