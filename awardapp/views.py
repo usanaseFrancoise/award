@@ -78,10 +78,54 @@ def home(request):
             average_usability=0.0
             average_design=0.0
             average_content=0.0
-             average_rating=0.0
+            average_rating=0.0
 
              '''
-             we also need
+             we also need to set
+             a condition to set a user to rate 
+             only once
+             '''
+        arrrate=[]
+        for use in votes:
+            arrrate.append(use.user_id)
+
+        auth=arrrate
+
+        reviews=ReviewForm(request.POST)
+        if request.method =='POST':
+            if reviews.is_valid():
+                comment=reviews.save(commit=False)
+                comment.user=request.user
+                comment.save()
+                return.redirect('projects',project_id)
+
+            else:
+                reviews=ReviewForm()
+
+        user_comments=Comment.objects.filter(pro_id=project_id)
+        context = {
+        'projects':projects,
+        'form':form,
+        'usability':average_usability,
+        'design':average_design,
+        'content':average_content,
+        'average_rating':average_rating,
+        'auth':auth,
+        'all':all,
+        'average':average,
+        'comments':user_comments,
+        'reviews':reviews,
+        
+    }
+    return render(request,'post.html',context)
+
+
+
+
+
+
+                 
+
 
 
 
