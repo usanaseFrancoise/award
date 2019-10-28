@@ -19,7 +19,7 @@ This is a Award APP  IS Built in django application  the user will be able:
 - Postgress
 -Postman:GET
 
-- running server http://127.0.0.1:8000/
-- Heroku insta https://insta.herokuapp.com/
+- running server: http://127.0.0.1:8000/
+- Heroku:
 
 ### License copyright (c) 2019 usanaseFrancoise
