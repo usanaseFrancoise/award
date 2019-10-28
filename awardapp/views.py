@@ -5,8 +5,15 @@ from django.http import Http404
 from .models import Profile,Project,Rate,Comments
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-
 from .forms import ProfileEditForm,ProjectUploadForm,VotesForm,ReviewForm
+from rest_framework.views import APIView
+from .permissions import IsAdminOrReadOnly
+from rest_framework import status
+from .serializer import ProfileSerializer,ProjectSerializer
+from rest_framework.response import Response
+
+
+
 # Create your views here.
 
 def home(request):
@@ -20,8 +27,9 @@ def home(request):
 
 def projects(request,project_id):
     try:
-        projects = Projects.objects.get(id=project_id)
-        all = Rates.objects.filter(project=project_id) 
+
+        projects = Project.objects.get(id=project_id)
+        all = Rate.objects.filter(project=project_id) 
         print(all)
     except Exception as e:
         raise Http404() 
@@ -51,7 +59,7 @@ def projects(request,project_id):
         form = VotesForm() 
         
     # The votes logic
-    votes = Rates.objects.filter(project=project_id)
+    votes = Rate.objects.filter(project=project_id)
     usability = []
     design = []
     content = [] 
@@ -74,7 +82,9 @@ def projects(request,project_id):
         average_usability=0.0
         average_rating = 0.0
         
-  
+    '''
+    To make sure that a user only votes once
+    '''
     
     arr1 = []
     for use in votes:
@@ -112,6 +122,7 @@ def projects(request,project_id):
     }
     
     return render(request,'post.html',context) 
+
 
 
 
@@ -158,4 +169,46 @@ def search_results(request):
         return render(request,'search.html',{"message":message,"projects":searched_projects})
 
 
+class ProfileList(APIView):
+    permission_classes = (IsAdminOrReadOnly,)
+    def get(self,request,format=None):
+        all_profiles = Profile.objects.all()
+        serializers = ProfileSerializer(all_profiles,many=True)
+        return Response(serializers.data)
+    
+    def post(self, request, format=None):
+        serializers = ProfileSerializer(data=request.data)
+        if serializers.is_valid():
+            serializers.save()
+            return Response(serializers.data, status=status.HTTP_201_CREATED)
+        return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+
+class ProfileList(APIView):
+    permission_classes = (IsAdminOrReadOnly,)
+    def get(self,request,format=None):
+        all_profiles = Profile.objects.all()
+        serializers = ProfileSerializer(all_profiles,many=True)
+        return Response(serializers.data)
+    
+    def post(self, request, format=None):
+        serializers = ProfileSerializer(data=request.data)
+        if serializers.is_valid():
+            serializers.save()
+            return Response(serializers.data, status=status.HTTP_201_CREATED)
+        return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class ProjectList(APIView):
+    permission_classes = (IsAdminOrReadOnly,)
+    def get(self,request,format=None):
+        all_projects = Project.objects.all()
+        serializers = ProjectSerializer(all_projects,many=True)
+        return Response(serializers.data)
+    
+    def post(self, request, format=None):
+        serializers = ProjectSerializer(data=request.data)
+        if serializers.is_valid():
+            serializers.save()
+            return Response(serializers.data, status=status.HTTP_201_CREATED)
+        return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)

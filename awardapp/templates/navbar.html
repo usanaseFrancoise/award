@@ -7,10 +7,16 @@
         <div class="dropdown dropleft">
   
        
-          <button  style="background-color: rgb(150, 167, 206);color:black;font-weight: bold" type="button" id="dropdownMenu1" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">View APIS</button>
-  
-  
+          <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">View APIS</button>
+
+
+        
+        <div class="dropdown-menu dropdown-info">
+          <a class="dropdown-item" href="{% url 'profile_list' %}">Profiles</a>
+          <a class="dropdown-item" href="{% url 'projects_list' %}">Projects</a>
+        </div>
+          
          
 
         </div>

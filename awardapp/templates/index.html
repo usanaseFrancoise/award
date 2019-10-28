@@ -4,7 +4,7 @@
 new WOW().init()
 </script>
 <div class="container">
-<h2 class="text-muted text-center">view SITES</h2>
+<h2 class="text-muted text-center">TOP SITES</h2>
 </div>
 <div class="row">
 {% for project in projects %}
@@ -17,7 +17,7 @@ new WOW().init()
                 </div>
         </div>
 
-<div class="card-body" style="border:2px #00BCD4;">
+<div class="card-body" style="border:2px rgb(248, 250, 250);">
     <a href="{% url 'projects' project.pk %}"><h5 class="strong-text"> <strong>{{project.title}}</strong> </h5> </a> <hr class="bg-info">
     <p class="black-text pull-right">{{project.pub_date|date:"F d,Y"}}</p>
     <h6>By  {{project.profile}}</h6>
