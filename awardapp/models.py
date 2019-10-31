@@ -60,7 +60,12 @@ class Project(models.Model):
     pub_date=models.DateTimeField(auto_now_add=True)
     image_landing=models.ImageField(upload_to='landing/')
 
+    def save_projects(self):
+        self.save()
 
+    def delete_projects(self):
+        self.delete()
+        
     @classmethod
     def search_by_projects(cls,search_term):
         projects=cls.objects.filter(title=search_term)
@@ -81,3 +86,13 @@ class Comments(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     comments = models.TextField(max_length=400)
     pro_id = models.IntegerField(default=0) 
+
+
+    def save_comments(self):
+        self.save()
+
+    def delete_comments(self):
+        self.delete()
+
+    def __str__(self):
+        return self.posted_by
